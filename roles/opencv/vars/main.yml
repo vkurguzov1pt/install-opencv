@@ -1,0 +1,21 @@
+# Define OpenCV version to install
+cvVersion: "master"
+
+# OpenCV Home Folder
+cvHomeDir: "/opt/opencv"
+
+# Directory for installation
+cvInstallDir: "{{cvHomeDir}}/installation"
+
+# Dependencies List
+
+cvDependencies:
+  - build-essential
+  - checkinstall
+  - cmake
+  - pkg-config
+  - yasm
+
+
+
+
