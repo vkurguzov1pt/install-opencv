@@ -1,6 +1,18 @@
 ---
 
+- name: Create OpenCV Home Folder
+  file:
+    path: '{{ cvHomeDir }}'
+    state: directory
+
 - name: Create directory for installation
   file:
+    path: '{{ cvInstallDir }}'
+    state: directory
+
+- name: Install dependencies
+  apt:
+    name      : '{{ cvDependencies }}'
+    state     : present
   
 
