@@ -1,11 +1,20 @@
 # Kurento Media Server Package Version
-kmsVersion: '6.7'
+kmsVersion: '6.7.2'
 
-# Kurento Plugin Build directory
-kBuildDir: '/opt/kurento-plugin/build'
+# kms Plugim Home Folder
+kpHomeDir: '/opt/kms-proctor-plugin' 
 
-# Kurento Plugin Repo URL
-kGitUrl: 'git@git.oxagile.com:proctoru/proctoru-kurento-module.git'
+# kms Plugin Build directory
+kpBuildDir: '{{ kpHomeDir }}/build'
 
-# Kurento Plugin Version To Download
-kVersion: 'master'
+# kms Plugin Package Name
+kpPackageName: 'proctor-plugin_0.0.1~rc1_amd64.deb'
+
+# kms Plugin Repo URL
+kpGitUrl: 'git@git.oxagile.com:proctoru/proctoru-kurento-module.git'
+
+# kms Plugin Version To Download
+kpVersion: 'master_ubuntu16'
+
+# Keyfile for kms GitLab
+kpGitAccessKey: '/home/vagrant/.ssh/github_id_rsa'

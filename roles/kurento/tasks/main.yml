@@ -1,5 +1,4 @@
 ---
-
 - name: Add the Kurento gpg key
   apt_key:
     keyserver: keyserver.ubuntu.com
@@ -8,7 +7,7 @@
 
 - name: Add the Kurento repository
   apt_repository:
-    repo: deb [arch=amd64] http://ubuntu.openvidu.io/6.7.2 xenial kms6
+    repo: deb [arch=amd64] http://ubuntu.openvidu.io/"{{ kmsVersion }}" xenial kms6
     state: present
   become: yes
 
@@ -29,18 +28,19 @@
 
 - name: Create Directory To Clone Kurento plugin
   file:
-    path: '{{ kBuildDir }}'
+    path: '{{ kpBuildDir }}'
     state: directory
     recurse: yes
     mode: 0777
-  become: yes
 
 - name: Download sources from git
   git:
-    repo: '{{ kGitUrl }}'
-    dest: '{{ kBuildDir }}'
+    repo: '{{ kpGitUrl }}'
+    version: '{{ kpVersion }}'
+    dest: '{{ kpBuildDir }}'
     accept_hostkey: yes
     force: yes
+    key_file: '{{ kpGitAccessKey }}'
   register: cloneresult
 
 - debug: var=cloneresult
@@ -50,7 +50,12 @@
     debuild -us -uc
   become: yes
   args:
-    chdir: '{{ kBuildDir }}'
+    chdir: '{{ kpBuildDir }}'
   register: debuildresult
   
 - debug: var=debuildresult
+
+- name: Install compiled KMS proctor-plugin
+  apt:
+    deb: '{{ kpHomeDir }}/{{ kpPackageName }}'
+  become: yes
