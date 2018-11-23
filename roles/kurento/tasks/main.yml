@@ -1,0 +1,56 @@
+---
+
+- name: Add the Kurento gpg key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 5AFA7A83
+  become: yes
+
+- name: Add the Kurento repository
+  apt_repository:
+    repo: deb [arch=amd64] http://ubuntu.openvidu.io/6.7.2 xenial kms6
+    state: present
+  become: yes
+
+- name: Install KMS
+  apt:
+    name: '{{ item.name }}'
+    state: present
+  with_items:
+    - { name: "kurento-media-server" }
+    - { name: "kurento-media-server-dev"}
+  become: yes
+
+- name: Enable KMS
+  service:
+    name: kurento-media-server
+    enabled: yes
+  become: yes
+
+- name: Create Directory To Clone Kurento plugin
+  file:
+    path: '{{ kBuildDir }}'
+    state: directory
+    recurse: yes
+    mode: 0777
+  become: yes
+
+- name: Download sources from git
+  git:
+    repo: '{{ kGitUrl }}'
+    dest: '{{ kBuildDir }}'
+    accept_hostkey: yes
+    force: yes
+  register: cloneresult
+
+- debug: var=cloneresult
+
+- name: Build KMS-plugin
+  command:
+    debuild -us -uc
+  become: yes
+  args:
+    chdir: '{{ kBuildDir }}'
+  register: debuildresult
+  
+- debug: var=debuildresult

@@ -1,3 +1,6 @@
+# OpenCV git link
+cvGitUrl: "https://github.com/opencv/opencv.git"
+
 # Define OpenCV version to install
 cvVersion: "master"
 
@@ -9,6 +12,7 @@ cvInstallDir: "{{cvHomeDir}}/installation"
 
 # Dependencies List
 cvDependencies:
+  - devscripts
   - build-essential
   - checkinstall
   - cmake
@@ -33,7 +37,7 @@ cvDependencies:
   - libtbb-dev
   - qt5-default
   - libatlas-base-dev
-  - ibfaac-dev
+  - libfaac-dev
   - libmp3lame-dev
   - libtheora-dev
   - libvorbis-dev

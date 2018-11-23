@@ -1,0 +1,11 @@
+# Kurento Media Server Package Version
+kmsVersion: '6.7'
+
+# Kurento Plugin Build directory
+kBuildDir: '/opt/kurento-plugin/build'
+
+# Kurento Plugin Repo URL
+kGitUrl: 'git@git.oxagile.com:proctoru/proctoru-kurento-module.git'
+
+# Kurento Plugin Version To Download
+kVersion: 'master'

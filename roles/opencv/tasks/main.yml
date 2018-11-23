@@ -1,5 +1,4 @@
 ---
-
 - name: Create OpenCV Home Folder
   file:
     path: '{{ cvHomeDir }}'
@@ -10,9 +9,60 @@
     path: '{{ cvInstallDir }}'
     state: directory
 
+- name: Remove default x264 and libx264-dev
+  apt:
+    name: ['x264', 'libx264-dev']
+    state: absent
+  become: yes
+
 - name: Install dependencies
   apt:
     name      : '{{ cvDependencies }}'
     state     : present
-  
+  become      : yes
 
+- name: Install optional dependencies
+  apt:
+    name      : '{{ cvOptionalDependencies }}'
+    state     : present
+  become      : yes
+
+- name      : Git clone OpenCV
+  git:
+    repo    : '{{ cvGitUrl }}'
+    dest    : '{{ cvInstallDir }}'
+    version : '{{ cvVersion }}'
+    accept_hostkey: yes
+    force   : yes
+  register: gitclone
+
+- name: Create folder for 'release'
+  file:
+    path: '{{ cvInstallDir }}/release'
+    state: directory
+
+- name: CMake OpenCV
+  command:
+    cmake  -D CMAKE_CXX_COMPILER=/usr/bin/g++ CMAKE_C_COMPILER=/usr/bin/gcc \
+           -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local \
+           -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON \
+           -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON \
+           -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON \
+           -D BUILD_FAT_JAVA_LIB=ON -D INSTALL_TO_MANGLED_PATHS=ON \
+           -D INSTALL_CREATE_DISTRIB=ON -D INSTALL_TESTS=ON -D ENABLE_FAST_MATH=ON \
+           -D WITH_IMAGEIO=ON -D BUILD_SHARED_LIBS=OFF -D WITH_GSTREAMER=ON ..
+  args:
+    chdir: '{{ cvInstallDir }}/release'
+  become: yes
+  when  : gitclone.changed
+
+- name: Make OpenCV
+  make: 
+    chdir: '{{ cvInstallDir }}/release'
+    target: install
+    params:
+      NUM_THREADS: '{{ ansible_processor_cores }}'
+  become: yes
+  register: result
+
+- debug: var=result
