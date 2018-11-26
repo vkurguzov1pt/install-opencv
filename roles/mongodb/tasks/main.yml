@@ -22,8 +22,9 @@
 
 - name: Create MongoDB Service Unit File
   copy:
-    dest: /etc/systemd/system/mongodb.service
-    content: |
+    mode    : 0777
+    dest    : /etc/systemd/system/mongodb.service
+    content : |
       [Unit]
       Description=High-performance, schema-free document-oriented database
       After=network.target
@@ -34,4 +35,4 @@
 
       [Install]
       WantedBy=multi-user.target
-  become: yes
+  become    : yes
