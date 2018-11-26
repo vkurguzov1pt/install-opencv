@@ -1,0 +1,37 @@
+---
+
+- name: Add MongoDB Key
+  apt_key:
+    keyserver : keyserver.ubuntu.com
+    id        : EA312927
+  become      : yes    
+
+- name: Add MongoDB repository
+  apt_repository:
+    repo  : deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse
+    state : present
+  become  : yes
+
+- name: Install MongoDB
+  apt:
+    name  : mongodb-org
+    state : present
+    update_cache: yes
+    allow_unauthenticated: yes
+  become  : yes
+
+- name: Create MongoDB Service Unit File
+  copy:
+    dest: /etc/systemd/system/mongodb.service
+    content: |
+      [Unit]
+      Description=High-performance, schema-free document-oriented database
+      After=network.target
+
+      [Service]
+      User=mongodb
+      ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
+
+      [Install]
+      WantedBy=multi-user.target
+  become: yes
