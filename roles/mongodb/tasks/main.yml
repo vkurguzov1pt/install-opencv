@@ -36,3 +36,8 @@
       [Install]
       WantedBy=multi-user.target
   become    : yes
+
+- name: Enable MongoDB at startup
+  service :
+    name  : mongodb
+    state : enabled
