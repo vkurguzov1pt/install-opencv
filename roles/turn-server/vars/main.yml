@@ -1,0 +1,17 @@
+# TURN-server config 
+  
+turn_server:
+  listening-port      : 80
+  tls-listening-port  : 443
+  external-ip         : 54.183.66.140/10.0.2.122
+  lt-cred-mech        : true
+  server-name         : proctoru-turn.oxagile.com
+  user                : kurento:kurento
+  realm               : proctoru-turn.oxagile.com
+  cert                : /usr/local/etc/oxagile_full.crt
+  pkey                : /usr/local/etc/oxagile.key
+  cipher-list         : "DEFAULT"
+
+  no-sslv2            : true
+  no-sslv3            : true
+  no-tlsv1_1          : true

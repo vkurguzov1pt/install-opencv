@@ -1,0 +1,20 @@
+---
+- name    : Install TURN-server
+  apt     :
+    name  : coturn
+    state : latest
+  become  : yes
+
+
+- name    : Edit TURN-server configuration file
+  copy    :
+    dest    : /etc/turnserver.conf
+    content : |
+      {% for key, value in turn_server.items() %}
+      {% if value == true %}
+      {{ key }}
+      {% else %}
+      {{ key }}={{ value }}
+      {% endif %}
+      {% endfor %}
+  become  : yes
