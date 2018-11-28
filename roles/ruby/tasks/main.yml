@@ -1,0 +1,42 @@
+---
+- name: Download Node.js to provide JavaScript Runtime functionality for Ruby
+  get_url:
+    url   : '{{ njUrl }}'
+    dest  : "{{ ansible_env.HOME}}/{{ njScript }}"
+
+- name: Add Node.js PPA
+  shell     : |
+    bash "{{ ansible_env.HOME}}/{{ njScript }}"
+  register  : njresult
+  become    : yes
+
+- debug: var=njresult
+
+- name: Install Node.js
+  apt     :
+    name  : nodejs
+  become  : yes
+
+- name: Install the dependencies required for rbenv and Ruby
+  apt:
+    name  : '{{ rubyDependencies }}'
+    state : present
+  become  : yes
+
+- name: Install rbenv to user home directory
+  git:
+    repo  : "{{ rbenvRepo }}"
+    dest  : "{{ rbHomeDir }}"
+    accept_hostkey: yes
+    force: yes
+    key_file: "{{ rbGitAccessKey }}"
+  become: yes
+  become_user: "{{ rubyUser }}"
+
+
+- name: Edit .bashrc config
+  shell: |
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> "{{ rubyUserHome }}"/.bashrc
+    echo 'eval "$(rbenv init -)"' >> "{{ rubyUserHome }}"/.bashrc
+  become: yes
+  become_user: "{{ rubyUser }}"

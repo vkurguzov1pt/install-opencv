@@ -1,0 +1,47 @@
+# github access key
+rbGitAccessKey: "/home/vagrant/.ssh/github_id_rsa"
+
+# nodejs version
+njVersion: "8.x"
+
+# nodejs installation script
+njScript: "nodesource_setup.sh"
+
+# The installation script for preferred version Node.js
+njUrl: "https://deb.nodesource.com/setup_{{ njVersion }}"
+
+# rbenv version
+rbVersion: latest
+
+# rbenv repository from git
+rbenvRepo: "https://github.com/rbenv/rbenv.git"
+
+# rbenvHomeDir
+rbHomeDir: "{{ rubyUserHome }}/.rbenv"
+
+# ruby user
+rubyUser: "developer"
+
+# ruby user home dir
+rubyUserHome: "/home/{{ rubyUser }}"
+
+# ruby version
+rubyVersion: "2.3.3"
+
+# postgresql version
+postgresql-version: latest
+
+# the dependencies required for rbenv and Ruby
+rubyDependencies:
+  - autoconf
+  - bison
+  - build-essential
+  - libssl-dev
+  - libyaml-dev
+  - libreadline6-dev
+  - zlib1g-dev
+  - libncurses5-dev
+  - libffi-dev
+  - libgdbm3
+  - libgdbm-dev
+  - libpq-dev
