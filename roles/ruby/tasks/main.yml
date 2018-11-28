@@ -1,4 +1,15 @@
 ---
+
+- name: Download and install Postgres
+  apt:
+    name: "{{ postgres_packages }}"
+    state: present
+  become: yes
+  vars:
+    postgres_packages:
+      - postgresql
+      - postgresql-contrib
+
 - name: Download Node.js to provide JavaScript Runtime functionality for Ruby
   get_url:
     url   : '{{ njUrl }}'
