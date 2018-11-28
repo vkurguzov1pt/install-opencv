@@ -10,14 +10,25 @@ njScript: "nodesource_setup.sh"
 # The installation script for preferred version Node.js
 njUrl: "https://deb.nodesource.com/setup_{{ njVersion }}"
 
-# rbenv version
-rbVersion: latest
+
+########################################################
+# rbenv configs
+########################################################
 
 # rbenv repository from git
 rbenvRepo: "https://github.com/rbenv/rbenv.git"
 
+# rbenv 'ruby-build' plugin repository
+rbenvPluginRepo: "https://github.com/rbenv/ruby-build.git"
+
 # rbenvHomeDir
-rbHomeDir: "{{ rubyUserHome }}/.rbenv"
+rbenvHomeDir: "{{ rubyUserHome }}/.rbenv"
+
+# rbenvBinaryDir
+rbenvBinDir: "{{ rbenvHomeDir }}/bin"
+
+# rbenvPluginsDir
+rbenvPluginsDir: "{{ rbenvHomeDir }}/plugins"
 
 # ruby user
 rubyUser: "developer"

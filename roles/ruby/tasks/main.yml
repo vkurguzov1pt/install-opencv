@@ -26,12 +26,26 @@
 - name: Install rbenv to user home directory
   git:
     repo  : "{{ rbenvRepo }}"
-    dest  : "{{ rbHomeDir }}"
-    accept_hostkey: yes
-    force: yes
-    key_file: "{{ rbGitAccessKey }}"
-  become: yes
+    dest  : "{{ rbenvHomeDir }}"
+    accept_hostkey  : yes
+    force     : yes
+    key_file  : "{{ rbGitAccessKey }}"
+  become      : yes
+  become_user : "{{ rubyUser }}"
+
+- name: Create folder 'plugins' under .rbenv
+  file    :
+    name  : "{{ rbenvPluginsDir }}"
+    state : directory
+  become  : yes
   become_user: "{{ rubyUser }}"
+
+- name: Install 'ruby-build' as a plugin for .rbenv to use "rbenv install"
+  git       :
+    repo    : "{{ rbenvPluginRepo }}"
+    dest    : "{{ rbenvPluginsDir }}/ruby-build"
+  become  : yes
+  become_user : "{{ rubyUser }}"
 
 
 - name: Edit .bashrc config
@@ -40,3 +54,12 @@
     echo 'eval "$(rbenv init -)"' >> "{{ rubyUserHome }}"/.bashrc
   become: yes
   become_user: "{{ rubyUser }}"
+
+- name: Install Ruby with rbenv
+  shell: |
+    $SHELL -lc "{{ rbenvBinDir }}/rbenv install --skip-existing {{ rubyVersion }}"
+  become: yes
+  become_user: "{{ rubyUser }}"
+  register: rubyinstall
+
+- debug: var=rubyinstall
