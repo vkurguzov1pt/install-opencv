@@ -59,10 +59,9 @@
 
 - name: Run 'make' to install libraries
   command:
-    make install
+    sudo make -j 4 && sudo make install
   args:
     chdir: '{{ cvInstallDir }}/release'
-  become: yes
   register: result
 
 - debug: var=result
