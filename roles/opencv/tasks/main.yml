@@ -56,12 +56,18 @@
   become: yes
   when  : gitclone.changed
 
-- name: Make OpenCV
-  make: 
+- name: Set a number of parallel jobs for 'make' depends on vcpu amount
+  command:
+    make -j '{{ ansible_processor_vcpus }}'
+  args: 
     chdir: '{{ cvInstallDir }}/release'
-    target: install
-    params:
-      NUM_THREADS: '{{ ansible_processor_cores }}'
+  become: yes
+
+- name: Run 'make' to install libraries
+  command:
+    make install
+  args:
+    chdir: '{{ cvInstallDir }}/release'
   become: yes
   register: result
 
