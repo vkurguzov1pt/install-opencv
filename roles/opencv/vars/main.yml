@@ -2,7 +2,7 @@
 cvGitUrl: "https://github.com/opencv/opencv.git"
 
 # Define OpenCV version to install
-cvVersion: "3.4"
+cvVersion: "master"
 
 # OpenCV Home Folder
 cvHomeDir: "/opt/opencv"

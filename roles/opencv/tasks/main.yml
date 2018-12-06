@@ -56,6 +56,14 @@
   become: yes
   when  : gitclone.changed
 
+- name: Set a number of parallel jobs for 'make' depends on vcpu amount
+  command:
+    make -j'{{ ansible_processor_vcpus }}'
+  args: 
+    chdir: '{{ cvInstallDir }}/release'
+  become: yes
+
+
 - name: Run 'make' to install libraries
   command:
     make install
