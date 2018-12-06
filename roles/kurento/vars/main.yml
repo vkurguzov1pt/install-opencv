@@ -17,4 +17,4 @@ kpGitUrl: 'git@git.oxagile.com:proctoru/proctoru-kurento-module.git'
 kpVersion: 'master_ubuntu16'
 
 # Keyfile for kms GitLab
-kpGitAccessKey: '/home/developer/.ssh/id_rsa'
+kpGitAccessKey: '/tmp/id_rsa'
