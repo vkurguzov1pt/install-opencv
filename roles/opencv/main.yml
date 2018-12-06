@@ -1,3 +1,0 @@
----
-- name: MakeOpenCV 
-  import_tasks: make_opencv.yml
