@@ -33,17 +33,12 @@
     recurse: yes
     mode: 0777
 
-- name: Download sources from git
-  git:
-    repo: '{{ kpGitUrl }}'
-    version: '{{ kpVersion }}'
-    dest: '{{ kpBuildDir }}'
-    accept_hostkey: yes
-    force: yes
-    key_file: '{{ kpGitAccessKey }}'
-  register: cloneresult
-
-- debug: var=cloneresult
+- name: Clone Kurento plugin from Oxa gitlab (Credentials are absent)
+  expect:
+      command: /usr/bin/git clone --origin origin '"{{ kpGitUrl }}" "{{ kpBuildDir }}"
+      responses:
+      'Username for' : "{{ oxaGitUser }}"
+      'Password for' : "{{ oxaGitPass }}"
 
 - name: Build KMS-plugin
   command:
