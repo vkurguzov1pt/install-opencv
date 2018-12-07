@@ -11,7 +11,7 @@ kpBuildDir: '{{ kpHomeDir }}/build'
 kpPackageName: 'proctor-plugin_0.0.1~rc1_amd64.deb'
 
 # kms Plugin Repo URL
-kpGitUrl: 'git@git.oxagile.com:proctoru/proctoru-kurento-module.git'
+kpGitUrl: 'https://git.oxagile.com/proctoru/proctoru-kurento-module.git'
 
 # kms Plugin Version To Download
 kpVersion: 'master_ubuntu16'
