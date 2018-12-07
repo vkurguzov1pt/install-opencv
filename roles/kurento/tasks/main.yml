@@ -37,8 +37,8 @@
   expect:
       command: /usr/bin/git clone --origin origin '"{{ kpGitUrl }}" "{{ kpBuildDir }}"
       responses:
-      'Username for' : "{{ oxaGitUser }}"
-      'Password for' : "{{ oxaGitPass }}"
+        'Username for' : "{{ oxaGitUser }}"
+        'Password for' : "{{ oxaGitPass }}"
 
 - name: Build KMS-plugin
   command:
