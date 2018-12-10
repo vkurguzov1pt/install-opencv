@@ -43,7 +43,6 @@
 - name: Build KMS-plugin
   command:
     debuild -us -uc
-  become: yes
   args:
     chdir: '{{ kpBuildDir }}'
   register: debuildresult

@@ -58,7 +58,7 @@
 
 - name: Set a number of parallel jobs for 'make' depends on vcpu amount
   command:
-    make -j'{{ ansible_processor_vcpus }}'
+    make -j6
   args: 
     chdir: '{{ cvInstallDir }}/release'
   become: yes
