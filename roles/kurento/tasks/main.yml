@@ -35,7 +35,7 @@
 
 - name: Clone Kurento plugin from Oxa gitlab (Credentials are absent)
   expect:
-      command: /usr/bin/git clone --origin origin "{{ kpGitUrl }}" "{{ kpBuildDir }}"
+      command: /usr/bin/git clone -b "{{ kpVersion }}" --single-branch "{{ kpGitUrl }}" "{{ kpBuildDir }}"
       responses:
         'Username for' : "{{ oxaGitUser }}"
         'Password for' : "{{ oxaGitPass }}"
