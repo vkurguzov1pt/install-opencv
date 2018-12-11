@@ -1,4 +1,9 @@
 ---
+- name: Enable NTP service
+  service   :
+    name    : ntp
+    enabled : yes
+  become    : yes
 - name: Add the Kurento gpg key
   apt_key:
     keyserver: keyserver.ubuntu.com
