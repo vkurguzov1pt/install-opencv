@@ -12,6 +12,7 @@ cvInstallDir: "{{cvHomeDir}}/installation"
 
 # Dependencies List
 cvDependencies:
+  - ntp
   - devscripts
   - build-essential
   - checkinstall
