@@ -130,3 +130,12 @@
   register: rubyinstall
 
 - debug: var=rubyinstall
+
+- name: Set the local application-specific Ruby version
+  shell: |
+    $SHELL -lc "{{ rbenvBinDir }}/rbenv local {{rubyVersion }}"
+  become: yes
+  become_user: "{{ rubyUser }}"
+  register: rbenvlocal
+
+- debug: var=rbenvlocal
