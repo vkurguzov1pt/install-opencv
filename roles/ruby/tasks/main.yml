@@ -1,10 +1,9 @@
 ---
-
-- name    : Make sure "rubyUser" exists
-  user    :
-    name  : "{{ rubyUser }}"
-    shell : /bin/bash
-    uid   : 1000
+- name        : Make sure "rubyUser" exists
+  user        :
+    name      : "{{ rubyUser }}"
+    shell     : /bin/bash
+    uid       : 1000
 
 - name        : Make sure "rubyUser" is in sudoers
   lineinfile  :
@@ -14,10 +13,29 @@
 
 - name        : Make sure folder "apps" exists
   file        :
-    path      : "/home/{{ rubyUser }}/apps"
+    path      : "{{ rubyUserHome }}/apps"
     owner     : "{{ rubyUser }}"
     group     : "{{ rubyUser }}"
     state     : directory
+  become      : yes
+
+- name        : Make sure ".ssh" folder exists
+  file        :
+    path      : "{{ rubyUserHome }}/.ssh"
+    owner     : "{{ rubyUser }}"
+    group     : "{{ rubyUser }}"
+    state     : directory
+  become      : yes
+
+- name        : Update config for ssh
+  copy        :
+    dest      : "{{ rubyUserHome }}/.ssh"
+    content   : |
+      Host *
+        StrictHostKeyChecking no
+    owner     : "{{ rubyUser }}"
+    group     : "{{ rubyUser }}"
+    mode      : 0600
   become      : yes
 
 - name        : Download and install Nginx
