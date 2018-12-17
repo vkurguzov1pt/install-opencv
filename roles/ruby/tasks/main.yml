@@ -3,7 +3,6 @@
   user        :
     name      : "{{ rubyUser }}"
     shell     : /bin/bash
-    uid       : 1000
   become      : yes
 
 - name        : Make sure "rubyUser" is in sudoers
