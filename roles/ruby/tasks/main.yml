@@ -47,8 +47,8 @@
     group     : "{{ rubyUser }}"
   become      : yes
   with_items  :
-    - { src: "localGitPub", dest: "{{ rubyUserHome }}/.ssh/id_rsa.pub", mode: 0600 }
-    - { src: "localGitPrivate", dest: "{{ rubyUserHome }}/.ssh/id_rsa", mode: 0400 }
+    - { src: "{{ localGitPub }}", dest: "{{ rubyUserHome }}/.ssh/id_rsa.pub", mode: 0600 }
+    - { src: "{{ localGitPrivate }}", dest: "{{ rubyUserHome }}/.ssh/id_rsa", mode: 0400 }
 
 - name        : Download and install Nginx
   apt         :
