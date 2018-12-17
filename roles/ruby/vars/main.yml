@@ -1,3 +1,6 @@
+# local github access keys
+localGitPub: "/home/victork/.ssh/id_rsa.pub"
+localGitPrivate: "/home/victork/.ssh/id_rsa"
 # github access key
 rbGitAccessKey: "/home/{{ rubyUser }}/.ssh/id_rsa"
 

@@ -38,6 +38,17 @@
     mode      : 0600
   become      : yes
 
+- name        : Upload keys for GitHub
+  copy        : 
+    src       : "{{ item.src }}"
+    dest      : "{{ item.dest }}"
+    mode      : "{{ item.mode }}"
+    owner     : "{{ rubyUser }}"
+    group     : "{{ rubyUser }}"
+  become      : yes
+  with_items  :
+    - { src: "localGitPub", dest: "{{ rubyUserHome }}/.ssh/id_rsa.pub", mode: 0600 }
+    - { src: "localGitPrivate", dest: "{{ rubyUserHome }}/.ssh/id_rsa", mode: 0400 }
 - name        : Download and install Nginx
   apt         :
     name      : nginx
