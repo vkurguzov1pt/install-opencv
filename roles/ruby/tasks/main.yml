@@ -1,5 +1,25 @@
 ---
 
+- name    : Make sure "rubyUser" exists
+  user    :
+    name  : "{{ rubyUser }}"
+    shell : /bin/bash
+    uid   : 1000
+
+- name        : Make sure "rubyUser" is in sudoers
+  lineinfile  :
+    dest      : /etc/sudoers
+    line      : "{{ rubyUser }} ALL=(ALL) NOPASSWD:ALL"
+  become      : yes
+
+
+- name        : Download and install Nginx
+  apt         :
+    name      : nginx
+    state     : present
+  become      : yes
+
+
 - name: Download and install Postgres
   apt:
     name: "{{ postgres_packages }}"
