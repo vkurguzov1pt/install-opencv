@@ -1,7 +1,5 @@
 ---
-- hosts: localhost
+- hosts: all
   roles:
-    - oracle_jdk
-    - opencv
-    - kurento
+    - ruby
 
