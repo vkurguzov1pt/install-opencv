@@ -12,13 +12,19 @@
     line      : "{{ rubyUser }} ALL=(ALL) NOPASSWD:ALL"
   become      : yes
 
+- name        : Make sure folder "apps" exists
+  file        :
+    path      : "/home/{{ rubyUser }}/apps"
+    owner     : "{{ rubyUser }}"
+    group     : "{{ rubyUser }}"
+    state     : directory
+  become      : yes
 
 - name        : Download and install Nginx
   apt         :
     name      : nginx
     state     : present
   become      : yes
-
 
 - name: Download and install Postgres
   apt:
