@@ -29,7 +29,7 @@
 
 - name        : Update config for ssh
   copy        :
-    dest      : "{{ rubyUserHome }}/.ssh"
+    dest      : "{{ rubyUserHome }}/.ssh/config"
     content   : |
       Host *
         StrictHostKeyChecking no
