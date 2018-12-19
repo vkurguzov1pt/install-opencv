@@ -3,48 +3,38 @@ localGitPub: "/home/victork/.ssh/id_rsa.pub"
 localGitPrivate: "/home/victork/.ssh/id_rsa"
 # github access key
 rbGitAccessKey: "/home/{{ rubyUser }}/.ssh/id_rsa"
-
 # nodejs version
 njVersion: "8.x"
-
 # nodejs installation script
 njScript: "nodesource_setup.sh"
-
 # The installation script for preferred version Node.js
 njUrl: "https://deb.nodesource.com/setup_{{ njVersion }}"
-
+# postgresql version
+postgresql-version: latest
 
 ########################################################
 # rbenv configs
 ########################################################
-
 # rbenv repository from git
 rbenvRepo: "https://github.com/rbenv/rbenv.git"
-
 # rbenv 'ruby-build' plugin repository
 rbenvPluginRepo: "https://github.com/rbenv/ruby-build.git"
-
 # rbenvHomeDir
 rbenvHomeDir: "{{ rubyUserHome }}/.rbenv"
-
 # rbenvBinaryDir
 rbenvBinDir: "{{ rbenvHomeDir }}/bin"
-
 # rbenvPluginsDir
 rbenvPluginsDir: "{{ rbenvHomeDir }}/plugins"
 
+##########################################################
+# Ruby and Application Configs
+##########################################################
 # ruby user
 rubyUser: "developer"
-
 # ruby user home dir
 rubyUserHome: "/home/{{ rubyUser }}"
-
 # ruby version
 rubyVersion: "2.3.3"
-
-# postgresql version
-postgresql-version: latest
-
 # the dependencies required for rbenv and Ruby
 rubyDependencies:
   - autoconf
@@ -59,3 +49,11 @@ rubyDependencies:
   - libgdbm3
   - libgdbm-dev
   - libpq-dev
+# application folder
+appBaseDir: "{{ rubyUserHome}}/apps"
+# proctoru folder
+proctoruDir: "{{ appBaseDir }}/proctoru"
+# shared folder for initial deployment
+sharedDir: "{{ proctoruDir }}/shared"
+
+#

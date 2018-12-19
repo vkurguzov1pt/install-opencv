@@ -1,55 +1,4 @@
 ---
-- name        : Make sure "rubyUser" exists
-  user        :
-    name      : "{{ rubyUser }}"
-    shell     : /bin/bash
-  become      : yes
-
-- name        : Make sure "rubyUser" is in sudoers
-  lineinfile  :
-    dest      : /etc/sudoers
-    line      : "{{ rubyUser }} ALL=(ALL) NOPASSWD:ALL"
-  become      : yes
-
-- name        : Make sure folder "apps" exists
-  file        :
-    path      : "{{ rubyUserHome }}/apps"
-    owner     : "{{ rubyUser }}"
-    group     : "{{ rubyUser }}"
-    state     : directory
-  become      : yes
-
-- name        : Make sure ".ssh" folder exists
-  file        :
-    path      : "{{ rubyUserHome }}/.ssh"
-    owner     : "{{ rubyUser }}"
-    group     : "{{ rubyUser }}"
-    state     : directory
-  become      : yes
-
-- name        : Update config for ssh
-  copy        :
-    dest      : "{{ rubyUserHome }}/.ssh/config"
-    content   : |
-      Host *
-        StrictHostKeyChecking no
-    owner     : "{{ rubyUser }}"
-    group     : "{{ rubyUser }}"
-    mode      : "0600"
-  become      : yes
-
-- name        : Upload keys for GitHub
-  copy        : 
-    src       : "{{ item.src }}"
-    dest      : "{{ item.dest }}"
-    mode      : "{{ item.mode }}"
-    owner     : "{{ rubyUser }}"
-    group     : "{{ rubyUser }}"
-  become      : yes
-  with_items  :
-    - { src: "{{ localGitPub }}", dest: "{{ rubyUserHome }}/.ssh/id_rsa.pub", mode: "0600" }
-    - { src: "{{ localGitPrivate }}", dest: "{{ rubyUserHome }}/.ssh/id_rsa", mode: "0400" }
-
 - name        : Download and install Nginx
   apt         :
     name      : nginx
@@ -90,6 +39,49 @@
     state : present
   become  : yes
 
+- name        : Make sure "rubyUser" exists
+  user        :
+    name      : "{{ rubyUser }}"
+    shell     : /bin/bash
+  become      : yes
+
+- name        : Make sure "rubyUser" is in sudoers
+  lineinfile  :
+    dest      : /etc/sudoers
+    line      : "{{ rubyUser }} ALL=(ALL) NOPASSWD:ALL"
+  become      : yes
+
+- name        : Make sure ".ssh" folder exists
+  file        :
+    path      : "{{ rubyUserHome }}/.ssh"
+    owner     : "{{ rubyUser }}"
+    group     : "{{ rubyUser }}"
+    state     : directory
+  become      : yes
+
+- name        : Update config for ssh
+  copy        :
+    dest      : "{{ rubyUserHome }}/.ssh/config"
+    content   : |
+      Host *
+        StrictHostKeyChecking no
+    owner     : "{{ rubyUser }}"
+    group     : "{{ rubyUser }}"
+    mode      : "0600"
+  become      : yes
+
+- name        : Upload keys for GitHub
+  copy        : 
+    src       : "{{ item.src }}"
+    dest      : "{{ item.dest }}"
+    mode      : "{{ item.mode }}"
+    owner     : "{{ rubyUser }}"
+    group     : "{{ rubyUser }}"
+  become      : yes
+  with_items  :
+    - { src: "{{ localGitPub }}", dest: "{{ rubyUserHome }}/.ssh/id_rsa.pub", mode: "0600" }
+    - { src: "{{ localGitPrivate }}", dest: "{{ rubyUserHome }}/.ssh/id_rsa", mode: "0400" }
+
 - name: Install rbenv to user home directory
   git:
     repo  : "{{ rbenvRepo }}"
@@ -113,7 +105,6 @@
     dest    : "{{ rbenvPluginsDir }}/ruby-build"
   become  : yes
   become_user : "{{ rubyUser }}"
-
 
 - name: Edit .bashrc config
   shell: |
@@ -139,3 +130,53 @@
   register: rbenvlocal
 
 - debug: var=rbenvlocal
+
+- name    : Make sure base directory "apps" exists
+  file    :
+    path  : "{{ appBaseDir }}"
+    owner : "{{ rubyUser }}"
+    group : "{{ rubyUser }}"
+    state : directory
+  become  : yes
+
+- name    : Make sure directory "proctoru" exists
+  file    :
+    path  : "{{ proctoruDir }}"
+    owner : "{{ rubyUser }}"
+    group : "{{ rubyUser }}"
+    state : directory
+  become  : yes
+
+- name    : Create initial folder "shared" for deployment via Capistrano
+  file    : 
+    path  : "{{ sharedDir }}"
+    owner : "{{ rubyUser }}"
+    group : "{{ rubyUser }}"
+    state : directory
+  become  : yes
+
+- name      :  Create 'shards.yml' file
+  copy      : 
+    dest    : "{{ sharedDir }}/shards.yml"
+    content : |
+      octopus:
+        environments:
+          - production
+        production:
+          read_replica:
+            host: pui-production-replica1.can52bvueist.us-west-2.rds.amazonaws.com
+            adapter: postgresql
+            database: proctoru_production
+            encoding: unicode
+            pool: 75
+            username: proctoru
+            password:
+            port: '5432'
+
+- name        : Install Rails
+  gem         :
+    name      : rails
+    state     : present
+  become      : yes
+  become_user : "{{ rubyUser }}"
+  
