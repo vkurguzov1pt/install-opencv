@@ -155,24 +155,6 @@
     state : directory
   become  : yes
 
-- name      :  Create 'shards.yml' file
-  copy      : 
-    dest    : "{{ sharedDir }}/shards.yml"
-    content : |
-      octopus:
-        environments:
-          - production
-        production:
-          read_replica:
-            host: pui-production-replica1.can52bvueist.us-west-2.rds.amazonaws.com
-            adapter: postgresql
-            database: proctoru_production
-            encoding: unicode
-            pool: 75
-            username: proctoru
-            password:
-            port: '5432'
-
 - name        : Install Rails
   gem         :
     name      : rails
